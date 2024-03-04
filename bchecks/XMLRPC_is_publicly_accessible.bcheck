@@ -1,0 +1,40 @@
+metadata:
+    language: v1-beta
+    name: "[10up] XMLRPC is publicly accessible"
+    description: "A custom POST request invoking demo.sayHello"
+    author: "Jozsef Kozo"
+    tags: "10up", "xmlrpc"
+
+define:
+    desc = " A publicly available XML-RPC interface poses a notable security risk, as it could be exploited by attackers for various malicious activities, including brute-force attacks, remote code execution, and information disclosure."
+    remed = "https://github.com/kojraai/10up-bcheck/blob/main/issues/XMLRPC_Is_Publicly_Accessible.md"
+
+given host then
+    send request called check:
+        `POST /xmlrpc.php HTTP/2
+Host: {base.request.url.host}
+Accept-Encoding: gzip, deflate, br
+Accept: */*
+Accept-Language: en-US;q=0.9,en;q=0.8
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.5993.70 Safari/537.36
+Cache-Control: max-age=0
+
+<?xml version="1.0" encoding="utf-8"?>
+<methodCall>
+<methodName>demo.sayHello</methodName>
+<params>
+<param>
+<value>admin</value>
+</param>
+</params>
+</methodCall>
+`
+
+    if {check.response.body} matches "Hello!" or
+        {check.response.status_code} is "200" then
+        report issue:
+            severity: low
+            confidence: firm
+            detail: {desc}
+            remediation: {remed}
+    end if

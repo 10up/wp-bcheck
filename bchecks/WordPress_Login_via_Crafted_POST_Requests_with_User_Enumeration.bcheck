@@ -1,0 +1,34 @@
+metadata:
+     language: v1-beta
+     name: "[10up] WordPress Login via Crafted POST Requests with User Enumeration"
+     description: "WordPress Login via Crafted POST Requests with User Enumeration"
+     author: "Jozsef Kozo"
+     tags: "10up", "wp-login", "user-enum"
+
+define:
+    desc = "This vulnerability involves the acceptance of login attempts via crafted POST requests on a WordPress site, coupled with user enumeration. When an incorrect login attempt is made, WordPress may disclose whether the entered username exists, aiding attackers in user enumeration. Attackers can exploit this vulnerability to systematically guess usernames and passwords through brute force attacks, increasing the likelihood of gaining unauthorized access to user accounts and compromising sensitive information."
+    remed  = "https://github.com/kojraai/10up-bcheck/blob/main/issues/WordPress_Login_via_POST_Requests.md"
+
+given host then
+    send request called check:
+`POST /wp-login.php HTTP/2
+Host: {base.request.url.host}
+Accept-Encoding: gzip, deflate, br
+Accept: */*
+Accept-Language: en-US;q=0.9,en;q=0.8
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.5993.70 Safari/537.36
+Cache-Control: max-age=0
+Cookie: wordpress_test_cookie=WP%20Cookie%20check
+Content-Type: application/x-www-form-urlencoded
+
+log=wordpress&pwd=wordpress123!&rememberme=forever&wp-submit=Log+In&redirect_to=%2F%3Fpage_id%3D2&testcookie=1
+
+
+`
+     if {check.response.body} matches "username/email" and {check.response.status_code} is "200" then
+          report issue:
+               severity: high
+               confidence: firm
+               detail: {desc}
+               remediation: {remed}
+     end if

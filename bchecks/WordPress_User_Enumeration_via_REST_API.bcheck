@@ -1,0 +1,34 @@
+metadata:
+     language: v1-beta
+     name: "[10up] WordPress User Enumeration via REST API"
+     description: "Discover unrestricted users endpoint"
+     author: "Jozsef Kozo"
+     tags: "10up", "wp-rest-api", "user-enum"
+
+define:
+    desc_1 = "An attacker can gather information about valid usernames registered on the WordPress site via the REST API endpoint, which can potentially aid in further attacks such as brute force attacks or targeted phishing attempts."
+    desc_2 = "REST API users endpoint is not found or restricted"
+    remed  = "https://github.com/kojraai/10up-bcheck/blob/main/issues/User_Enumeration_REST_API.md"
+
+run for each:
+     potential_path =
+        "/wp-json/wp/v2/users"
+given host then
+     send request called check:
+          method: "GET"
+          replacing path: {potential_path}
+     
+     if {check.response.status_code} is "200" and {check.response.body} matches "name" then
+          report issue:
+               severity: high
+               confidence: certain
+               detail: `{desc_1} {check.request.url.protocol}://{check.request.url.host}{potential_path}`
+               remediation: {remed}
+     else if not({check.response.status_code} is "200") then
+          report issue:
+               severity: info
+               confidence: firm
+               detail: `{desc_2}`
+               remediation: {remed}
+
+     end if

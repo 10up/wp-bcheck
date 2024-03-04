@@ -1,0 +1,27 @@
+metadata:
+     language: v2-beta
+     name: "[10up] Nginx version exposure in upload folder"
+     description: "Nginx version exposure in upload folder"
+     author: "Jozsef Kozo"
+     tags: "10up", "wp-core", "wp-uploads" ,"nginx"
+
+define:
+    desc = "The exposure of the upload folder allows unauthorized users to view and potentially manipulate sensitive files uploaded to the site, posing risks such as data breaches, unauthorized access, and malware injection."
+    remed  = "https://github.com/kojraai/10up-bcheck/blob/main/issues/Nginx_Version_Disclosure.md"
+
+run for each:
+     potential_path =
+          "/uploads",
+          "/wp-content/uploads/"
+given host then
+     send request called check:
+          method: "GET"
+          replacing path: {potential_path}
+     
+     if {check.response.body} matches "nginx\/[\w\d.]+" then
+          report issue and continue:
+               severity: low
+               confidence: firm
+               detail: `{desc} {check.request.url.protocol}://{check.request.url.host}:{potential_path}.`
+               remediation: {remed}
+     end if

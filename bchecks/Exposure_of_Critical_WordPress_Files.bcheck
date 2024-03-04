@@ -1,0 +1,30 @@
+metadata:
+     language: v2-beta
+     name: "[10up] Exposure of Critical WordPress Files"
+     description: "Exposure of Critical WordPress Files"
+     author: "Jozsef Kozo"
+     tags: "10up","wp-core"
+
+define:
+    desc = "Several critical files within the WordPress installation, including readme.html, wp-admin/setup-config.php, wp-admin/install.php, wp-admin/upgrade.php, and wp-admin/wp-config-sample.php, are publicly accessible."
+    remed  = "https://github.com/kojraai/10up-bcheck/blob/main/issues/Critical_WordPress_Files.md"
+
+run for each:
+     potential_path =
+          "/readme.html",
+          "/wp-admin/setup-config.php",
+          "/wp-admin/install.php",
+          "/wp-admin/upgrade.php",
+          "/wp-admin/wp-config-sample.php"
+given host then
+     send request called check:
+          method: "GET"
+          replacing path: {potential_path}
+     
+     if {check.response.status_code} is "200" then
+          report issue and continue:
+               severity: info
+               confidence: firm
+               detail: `{desc} {check.request.url.protocol}://{check.request.url.host}:{potential_path}.`
+               remediation: {remed}
+     end if

@@ -1,0 +1,27 @@
+metadata:
+     language: v1-beta
+     name: "[10up] WordPress API Exposure"
+     description: "WordPress API Exposure"
+     author: "Jozsef Kozo"
+     tags: "10up", "wp-rest-api"
+
+define:
+    desc = "The WordPress REST API provides powerful functionality for interacting with your website's data, allowing developers to create interactive and dynamic web applications. However, when the REST API endpoint is publicly available, it can pose significant security risks if not properly secured."
+    remed  = "https://github.com/kojraai/10up-bcheck/blob/main/issues/WordPress_API_Exposure.md"
+
+run for each:
+     potential_path =
+          "/wp-json",
+          "/wp-json/"
+given host then
+     send request called check:
+          method: "GET"
+          replacing path: {potential_path}
+     
+     if {check.response.status_code} is "200" then
+          report issue:
+               severity: info
+               confidence: firm
+               detail: `{desc} {check.request.url.protocol}://{check.request.url.host}:{potential_path}.`
+               remediation: {remed}
+     end if

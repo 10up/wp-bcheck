@@ -1,0 +1,29 @@
+metadata:
+     language: v2-beta
+     name: "[10up] Publicly Accessible WordPress Login and Registration Endpoints"
+     description: "Publicly Accessible WordPress Login and Registration Endpoints"
+     author: "Jozsef Kozo"
+     tags: "10up","wp-core", "wp-login"
+
+define:
+    desc = "This issue involves the exposure of various WordPress login and registration endpoints, such as /wp-login.php?checkemail=confirm, /wp-login.php?action=register, /wp-login.php?checkemail=registered, and /wp-login.php?registration=disabled. These publicly available endpoints can be exploited by attackers to perform reconnaissance, launch brute force attacks, or potentially exploit vulnerabilities related to user authentication and registration processes."
+    remed  = "https://github.com/kojraai/10up-bcheck/blob/main/issues/Open_WordPress_Login_and_Registration_Endpoints.md"
+
+run for each:
+     potential_path =
+          "/wp-login.php?checkemail=confirm",
+          "/wp-login.php?action=register",
+          "/wp-login.php?checkemail=registered",
+          "/wp-login.php?registration=disabled"
+given host then
+     send request called check:
+          method: "GET"
+          replacing path: {potential_path}
+     
+     if {check.response.status_code} is "200" or {check.response.status_code} is "302"  then
+          report issue and continue:
+               severity: info
+               confidence: firm
+               detail: `{desc} {check.request.url.protocol}://{check.request.url.host}:{potential_path}.`
+               remediation: {remed}
+     end if

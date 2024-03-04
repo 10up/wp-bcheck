@@ -1,0 +1,27 @@
+metadata:
+    language: v2-beta
+    name: "[10up] Publicly Accessible Upload Folder"
+    description: "Publicly Accessible Upload Folder"
+    author: "Jozsef Kozo"
+    tags: "10up", "wp-core", "wp-uploads"
+
+define:
+    desc = "The exposure of the upload folder allows unauthorized users to view and potentially manipulate sensitive files uploaded to the site, posing risks such as data breaches, unauthorized access, and malware injection."
+    remed = "https://github.com/kojraai/10up-bcheck/blob/main/issues/Public_upload_folder.md"
+
+run for each:
+    potential_path = "/uploads", "/wp-content/uploads/"
+
+given host then
+    send request called check:
+        method: "GET"
+        replacing path: {potential_path}
+
+    if {check.response.body} matches "Index of" and
+        {check.response.status_code} is "200" then
+        report issue and continue:
+            severity: medium
+            confidence: certain
+            detail: `{desc} {check.request.url.protocol}://{check.request.url.host}:{potential_path}.`
+            remediation: {remed}
+    end if

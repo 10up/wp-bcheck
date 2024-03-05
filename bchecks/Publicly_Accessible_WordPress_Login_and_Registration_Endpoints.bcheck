@@ -7,7 +7,7 @@ metadata:
 
 define:
     desc = "This issue involves the exposure of various WordPress login and registration endpoints, such as /wp-login.php?checkemail=confirm, /wp-login.php?action=register, /wp-login.php?checkemail=registered, and /wp-login.php?registration=disabled. These publicly available endpoints can be exploited by attackers to perform reconnaissance, launch brute force attacks, or potentially exploit vulnerabilities related to user authentication and registration processes."
-    remed  = "https://github.com/kojraai/10up-bcheck/blob/main/issues/Open_WordPress_Login_and_Registration_Endpoints.md"
+    remed  = "https://github.com/10up/wp-bcheck/blob/trunk/issues/Publicly_Accessible_Password_Reset_Functionality.md"
 
 run for each:
      potential_path =

@@ -7,7 +7,7 @@ metadata:
 
 define:
     desc = " A publicly available XML-RPC interface poses a notable security risk, as it could be exploited by attackers for various malicious activities, including brute-force attacks, remote code execution, and information disclosure."
-    remed = "https://github.com/kojraai/10up-bcheck/blob/main/issues/XMLRPC_Is_Publicly_Accessible.md"
+    remed = "https://github.com/10up/wp-bcheck/blob/trunk/issues/XMLRPC_Is_Publicly_Accessible.md"
 
 given host then
     send request called check:

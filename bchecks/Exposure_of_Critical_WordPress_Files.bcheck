@@ -7,7 +7,7 @@ metadata:
 
 define:
     desc = "Several critical files within the WordPress installation, including readme.html, wp-admin/setup-config.php, wp-admin/install.php, wp-admin/upgrade.php, and wp-admin/wp-config-sample.php, are publicly accessible."
-    remed  = "https://github.com/kojraai/10up-bcheck/blob/main/issues/Critical_WordPress_Files.md"
+    remed  = "https://github.com/10up/wp-bcheck/blob/trunk/issues/Critical_WordPress_Files.md"
 
 run for each:
      potential_path =

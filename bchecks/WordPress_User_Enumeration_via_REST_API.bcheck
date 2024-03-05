@@ -8,7 +8,7 @@ metadata:
 define:
     desc_1 = "An attacker can gather information about valid usernames registered on the WordPress site via the REST API endpoint, which can potentially aid in further attacks such as brute force attacks or targeted phishing attempts."
     desc_2 = "REST API users endpoint is not found or restricted"
-    remed  = "https://github.com/kojraai/10up-bcheck/blob/main/issues/User_Enumeration_REST_API.md"
+    remed  = "https://github.com/10up/wp-bcheck/blob/trunk/issues/User_Enumeration_REST_API.md"
 
 run for each:
      potential_path =

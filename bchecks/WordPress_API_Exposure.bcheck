@@ -7,7 +7,7 @@ metadata:
 
 define:
     desc = "The WordPress REST API provides powerful functionality for interacting with your website's data, allowing developers to create interactive and dynamic web applications. However, when the REST API endpoint is publicly available, it can pose significant security risks if not properly secured."
-    remed  = "https://github.com/kojraai/10up-bcheck/blob/main/issues/WordPress_API_Exposure.md"
+    remed  = "https://github.com/10up/wp-bcheck/blob/trunk/issues/WordPress_API_Exposure.md"
 
 run for each:
      potential_path =

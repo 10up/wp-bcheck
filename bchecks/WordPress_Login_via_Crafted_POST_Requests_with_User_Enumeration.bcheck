@@ -7,7 +7,7 @@ metadata:
 
 define:
     desc = "This vulnerability involves the acceptance of login attempts via crafted POST requests on a WordPress site, coupled with user enumeration. When an incorrect login attempt is made, WordPress may disclose whether the entered username exists, aiding attackers in user enumeration. Attackers can exploit this vulnerability to systematically guess usernames and passwords through brute force attacks, increasing the likelihood of gaining unauthorized access to user accounts and compromising sensitive information."
-    remed  = "https://github.com/kojraai/10up-bcheck/blob/main/issues/WordPress_Login_via_POST_Requests.md"
+    remed  = "https://github.com/10up/wp-bcheck/blob/trunk/issues/WordPress_Login_via_POST_Requests.md"
 
 given host then
     send request called check:

@@ -13,8 +13,6 @@ WordPress login functionality, by default, may reveal whether a login attempt fa
 Configure WordPress to display generic error messages for failed login attempts, refraining from disclosing whether the entered username or password was incorrect. By concealing this information, attackers are unable to ascertain the validity of usernames, thus diminishing the efficacy of user enumeration attacks.
 Implement two-factor authentication (2FA) to provide an additional layer of security and deploy an account lockout and rate-limit mechanism that automatically locks user accounts for a designated period after a specified number of failed login attempts.
 
-Additionally, consider disabling POST requests for wp-login to further fortify the site against potential login-related vulnerabilities. 
-
 ## Like what you see?
 
 <p align="center">

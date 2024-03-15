@@ -4,7 +4,7 @@
 
 [![Support Level](https://img.shields.io/badge/support-active-green.svg)](#support-level)
 
-* Check out the [BChek Docs](https://portswigger.net/burp/documentation/scanner/bchecks)
+* Check out the [BCheck Docs](https://portswigger.net/burp/documentation/scanner/bchecks)
 
 ## Overview
 
